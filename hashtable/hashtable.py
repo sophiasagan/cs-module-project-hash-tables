@@ -43,7 +43,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        return self.capacity
+        return len(self.buckets)
 
     def get_load_factor(self):
         """
@@ -52,6 +52,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return self.size / self.capacity
 
     def fnv1(self, key):
         """
@@ -89,8 +90,8 @@ class HashTable:
 
         hash = 5381
 
-        for x in key:
-            hash = ((hash << 5) + hash) + ord(x)
+        for char in key:
+            hash = ((hash << 5) + hash) + ord(char)
         return hash & 0xFFFFFFFFF
 
         # hash = 5381
@@ -123,12 +124,16 @@ class HashTable:
         node = self.buckets[index]
         if node is None:
             self.buckets[index] = HashTableEntry(key, value)
+            if self.get_load_factor() > 0.7:
+                self.resize(self.capacity * 2)
             return
-        prev = node
-        while node is not None:
-            prev = node
-            node = node.next
-        prev.next = HashTableEntry(key, value)      
+        elif node.key is key:
+            node.value = value
+        else:
+            self.buckets[index] = HashTableEntry(key, value)
+            node.next = node
+            if self.get_load_factor() > 0.7:
+                self.resize(self.capacity * 2)     
 
         # # generate hash based on key
         # slot = self.hash_index(key)
@@ -169,7 +174,8 @@ class HashTable:
 
         index = self.hash_index(key)
         node = self.buckets[index]
-        while HashTableEntry is not None and node.key != key:
+        prev = None
+        while node is not None and node.key != key:
             prev = node
             node = node.next
         if node is None:
@@ -179,7 +185,7 @@ class HashTable:
             self.size -= 1
             result = node.value
             if prev is None:
-                node = None
+                self.buckets[index] = node.next
             else:
                 prev.next = prev.next.next
             return result 
