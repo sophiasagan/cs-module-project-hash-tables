@@ -62,7 +62,7 @@ class HashTable:
         """
 
         fnv_prime = 1099511628211
-        offset_basis =  14695981039346656037
+        offset_basis = 14695981039346656037
         hash_value = offset_basis
         key_utf8 = key.encode()
         for byte in key_utf8:
@@ -108,8 +108,10 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        # return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+
+        # Perform modulus to keep the index in range [0, self.capacity - 1]
+        return self.fnv1(key) % self.capacity
+        # return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -119,21 +121,24 @@ class HashTable:
 
         Implement this.
         """
-        self.size += 1
-        index = self.hash_index(key)
-        node = self.buckets[index]
-        if node is None:
-            self.buckets[index] = HashTableEntry(key, value)
+
+        self.size += 1  # increment size
+        index = self.hash_index(key)  # compute index of key
+        node = self.buckets[index]  # node corresponding to the hash index
+        if node is None:  # if empty
+            self.buckets[index] = HashTableEntry(key, value)  # create node
             if self.get_load_factor() > 0.7:
                 self.resize(self.capacity * 2)
             return
-        elif node.key is key:
+        elif node.key is key:  # hash collisions handled with ll chaining
             node.value = value
-        else:
-            self.buckets[index] = HashTableEntry(key, value)
-            node.next = node
-            if self.get_load_factor() > 0.7:
-                self.resize(self.capacity * 2)     
+        prev = node  # iterate to the end of ll at provided index
+        while node is not None:
+            prev = node
+            node = node.next
+        prev.next = HashTableEntry(key, value) # add new node at end of lists with provided key/value
+        if self.get_load_factor() > 0.7:
+            self.resize(self.capacity * 2)
 
         # # generate hash based on key
         # slot = self.hash_index(key)
@@ -172,23 +177,23 @@ class HashTable:
         Implement this.
         """
 
-        index = self.hash_index(key)
+        index = self.hash_index(key) # calc hash index
         node = self.buckets[index]
         prev = None
-        while node is not None and node.key != key:
+        while node is not None and node.key != key: # iterate to the requested node
             prev = node
             node = node.next
-        if node is None:
+        if node is None: # node is either the requested node or none
             print("Key is not found!")
             return None
         else:
             self.size -= 1
             result = node.value
-            if prev is None:
+            if prev is None: # delete element 
                 self.buckets[index] = node.next
             else:
                 prev.next = prev.next.next
-            return result 
+            return result
 
         # self.size -= 1
 
@@ -218,11 +223,11 @@ class HashTable:
         Implement this.
         """
 
-        index = self.hash_index(key)
-        node = self.buckets[index]
-        while node is not None and node.key != key:
+        index = self.hash_index(key) # calc hash index
+        node = self.buckets[index] # find first node
+        while node is not None and node.key != key: # traverse ll
             node = node.next
-        if node is None:
+        if node is None: # node is either the requested or none
             return None
         else:
             return node.value
