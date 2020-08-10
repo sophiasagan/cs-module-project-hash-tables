@@ -21,8 +21,9 @@ def slowfun(x, y):
     output, but completes quickly instead of taking ages to run.
     """
     # Your code here
+    # check cache for values
     if (x, y) not in slowfun_cache:
-        slowfun_cache[(x, y)] = slowfun_too_slow(x, y)
+        slowfun_cache[(x, y)] = slowfun_too_slow(x, y) # if not add value to cache
     return slowfun_cache[(x, y)]
 
 

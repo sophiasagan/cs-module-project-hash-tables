@@ -1,13 +1,14 @@
 # Your code here
-
+# init cache
 expensive_cache = {}
 
 def expensive_seq(x, y, z):
     # Your code here
+    # check cache for values
     if (x,y,z) not in expensive_cache:
-        if x <= 0:
+        if x <= 0: 
             expensive_cache[(x,y,z)] = y + z
-        else:
+        else: # if not put in cache
             expensive_cache[(x,y,z)] = expensive_seq(x-1, y+1, z) + expensive_seq(x-2, y +2, z*2) + expensive_seq(x-3, y+3, z*3)
     return expensive_cache[x,y,z]
 
