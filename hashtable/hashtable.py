@@ -1,3 +1,5 @@
+
+#%%
 class HashTableEntry:
     """
     Linked List hash table key/value pair
@@ -60,9 +62,11 @@ class HashTable:
 
         Implement this, and/or DJB2.
         """
-
+        # constants
         fnv_prime = 1099511628211
         offset_basis = 14695981039346656037
+
+        # FNV-1 Hash Function
         hash_value = offset_basis
         key_utf8 = key.encode()
         for byte in key_utf8:
@@ -164,7 +168,7 @@ class HashTable:
         #         existing_node = existing_node.next_node
         #     # if we get this far, we didn't find an existing key
         #     # so just append tht new node to the end of the bucket
-        #     last_node.nex_node = new_node
+        #     last_node.next_node = new_node
         # else:
         #     self.bucket_array[bucket_index] = new_node
 
@@ -307,3 +311,6 @@ if __name__ == "__main__":
         print(ht.get(f"line_{i}"))
 
     print("")
+
+
+# %%
