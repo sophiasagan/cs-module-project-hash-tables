@@ -1,8 +1,15 @@
 # Your code here
 
+expensive_cache = {}
 
 def expensive_seq(x, y, z):
     # Your code here
+    if (x,y,z) not in expensive_cache:
+        if x <= 0:
+            expensive_cache[(x,y,z)] = y + z
+        else:
+            expensive_cache[(x,y,z)] = expensive_seq(x-1, y+1, z) + expensive_seq(x-2, y +2, z*2) + expensive_seq(x-3, y+3, z*3)
+    return expensive_cache[x,y,z]
 
 
 
