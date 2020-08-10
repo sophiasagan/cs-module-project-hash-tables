@@ -1,6 +1,24 @@
 def word_count(s):
     # Your code here
+    word_d = {}
 
+    remove = '" : ; , . - + = / \ | [ ] { } ( ) * ^ &'
+    
+    words = s.split()
+
+    for word in words:
+        word = word.strip(remove)
+        word = "".join(i.lower() for i in word if not i in remove)
+
+        if word == '': 
+            continue
+
+        if word not in word_d:
+            word_d[word] = 0
+
+        word_d[word] += 1
+
+    return word_d
 
 
 if __name__ == "__main__":
