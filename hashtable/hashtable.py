@@ -186,6 +186,9 @@ class HashTable:
         Implement this.
         """
 
+        if self.get_load_factor() < 0.2:
+            self.resize(self.capacity // 2)
+
         index = self.hash_index(key) # calc hash index
         node = self.buckets[index]
         prev = None
