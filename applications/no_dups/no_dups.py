@@ -1,11 +1,12 @@
-no_dups_cache = {}
 
 def no_dups(s):
     # Your code here
-    for word in s:
-        no_dups_cache[word] = True
+    s = s.split() # split string
+    s = list(dict.fromkeys(s)) # create list with dict keys - removes dups
+    s = ' '.join(s) # join list with space between words
+    return s
 
-    return s in no_dups_cache
+
 
 
 
