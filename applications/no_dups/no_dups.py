@@ -1,5 +1,12 @@
+no_dups_cache = {}
+
 def no_dups(s):
     # Your code here
+    for word in s:
+        no_dups_cache[word] = True
+
+    return s in no_dups_cache
+
 
 
 
