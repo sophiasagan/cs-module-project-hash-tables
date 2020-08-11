@@ -134,6 +134,9 @@ class HashTable:
             if self.get_load_factor() > 0.7:
                 self.resize(self.capacity * 2)
             return
+            # if self.get_load_factor() < 0.2:
+            #     self.resize(self.capacity // 2)
+            # return
         elif node.key is key:  # hash collisions handled with ll chaining
             node.value = value
         prev = node  # iterate to the end of ll at provided index
@@ -143,6 +146,8 @@ class HashTable:
         prev.next = HashTableEntry(key, value) # add new node at end of lists with provided key/value
         if self.get_load_factor() > 0.7:
             self.resize(self.capacity * 2)
+        # if self.get_load_factor() < 0.2:
+        #     self.resize(self.capacity // 2)
 
         # # generate hash based on key
         # slot = self.hash_index(key)
