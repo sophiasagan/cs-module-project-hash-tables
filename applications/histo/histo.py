@@ -27,7 +27,7 @@ def histo(file):
 
         histo_cache[word] += "#" # increment
 
-    # Sort the tuples by
+    # Sort the tuples
     histo_items = list(histo_cache.items())
     # reverse list so that greatest it at top & alphabetize
     histo_items.sort(key = lambda pair: (-len(pair[1]), pair[0]))
