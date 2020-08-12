@@ -43,7 +43,7 @@ def sumdiff(nums):
             # print(sums_result)
             # print(sums)
 
-            # calc all possile differences
+            # calc all possible differences
             diffs_index = f(nums[i]) - f(nums[j])
             diffs_result = (nums[i], nums[j])
             # print(diffs_index)
