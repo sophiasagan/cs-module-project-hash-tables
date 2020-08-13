@@ -34,3 +34,6 @@ def histo(file):
 
     for item in histo_items:
         print(f"{item[0] :20}{item[1]}") # justify items
+
+
+histo('robin.txt')
