@@ -1,5 +1,13 @@
+
 def no_dups(s):
     # Your code here
+    s = s.split() # split string
+    s = list(dict.fromkeys(s)) # create list with dict keys - removes dups
+    s = ' '.join(s) # join list with space between words
+    return s
+
+
+
 
 
 
